@@ -1,0 +1,123 @@
+<!-- 3.- Validación de formularios.
+
+3.1. Crear un formulario con al menos los siguientes elementos: text, number, checkbox, select, textArea, date, submit.
+
+3.2. Realizar la validación HTML5 cuando se pulse el botón de submit, antes de enviar la información al servidor, validando al menos los criterios: required, max, min, minlength, maxlength y pattern. Combinados como se desee en los inputs del form anterior. Marcar el borde de rojo en los inputs inválidos usando Pseudoclases.
+
+3.3. Realizar la validación usando javascript, también al pulsar en submit y antes de enviar el formulario. Aplicar los mismos criterios del 3.2. Marcar el borde de rojo en los inputs inválidos usando el DOM.
+
+3.4. En lugar de esperar a rellenar todos los campos y que el usuario haga submit, validad sobre la marcha cada vez que el usuario rellenene un input (usando enventos y basándose en el javascript del 3.3 si se desea).
+
+3.5. Crear mensajes de error personalizados para la validación HTML5 en un popup.
+
+3.6. Agregar un botón de cierre a los mensajes de error (en el popup). -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario con Validación HTML5</title>
+    <style>
+        input.invalid,
+        select.invalid,
+        textarea.invalid {
+            border: 2px solid red;
+        }
+    
+        #errorPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+            background-color: #ffdddd;
+            border: 1px solid #ff0000;
+            z-index: 1;
+            cursor: pointer;
+        }
+    </style>
+    
+</head>
+<body>
+    <form id="miFormulario" id="errorPopup">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required minlength="3" maxlength="50" pattern="[A-Za-z ]+">
+
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad" name="edad" required min="18" max="99">
+
+        <label for="casado">Casado:</label>
+        <input type="checkbox" id="casado" name="casado">
+
+        <label for="ciudad">Ciudad:</label>
+        <select id="ciudad" name="ciudad" required>
+            <option value="">Seleccionar</option>
+            <option value="quito">Quito</option>
+            <option value="guayaquil">Guayaquil</option>
+            <option value="cuenca">Cuenca</option>
+        </select>
+
+        <label for="comentario">Comentario:</label>
+        <textarea id="comentario" name="comentario" required minlength="10" maxlength="200"></textarea>
+
+        <label for="fecha">Fecha de Nacimiento:</label>
+        <input type="date" id="fecha" name="fecha" required>
+
+        <input type="submit" value="Enviar">
+    </form>
+    <div id="errorPopup"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('miFormulario');
+    
+            form.addEventListener('submit', function (event) {
+                if (!validateForm()) {
+                    event.preventDefault(); 
+                }
+            });
+    
+            form.addEventListener('input', function (event) {
+                validateInput(event.target);
+            });
+    
+            function validateForm() {
+                let isValid = true;
+    
+                isValid = isValid && validateInput(document.getElementById('nombre'));
+                isValid = isValid && validateInput(document.getElementById('edad'));
+                isValid = isValid && validateInput(document.getElementById('ciudad'));
+                isValid = isValid && validateInput(document.getElementById('comentario'));
+                isValid = isValid && validateInput(document.getElementById('fecha'));
+    
+                return isValid;
+            }
+    
+            function validateInput(input) {
+                const validity = input.validity;
+    
+                if (!validity.valid) {
+                    input.classList.add('invalid');
+                    displayError(input.validationMessage);
+                    return false;
+                } else {
+                    input.classList.remove('invalid');
+                    return true;
+                }
+            }
+    
+            function displayError(message) {
+                const errorPopup = document.getElementById('errorPopup');
+                errorPopup.textContent = message;
+                errorPopup.style.display = 'block';
+            }
+    
+            const errorPopup = document.getElementById('errorPopup');
+            errorPopup.addEventListener('click', function () {
+                errorPopup.style.display = 'none';
+            });
+        });
+    </script>
+    
+</body>
+</html>

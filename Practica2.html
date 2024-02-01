@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tabla Dinámica</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+
+      th,
+      td {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="filas">Número de Filas:</label>
+    <input type="number" id="filas" />
+
+    <label for="columnas">Número de Columnas:</label>
+    <input type="number" id="columnas" />
+
+    <button onclick="crearTabla()">Crear Tabla</button>
+
+    <br />
+
+    <label for="filaEliminar">Fila a Eliminar:</label>
+    <input type="number" id="filaEliminar" min="1" />
+
+    <label for="columnaEliminar">Columna a Eliminar:</label>
+    <input type="number" id="columnaEliminar" min="1" />
+
+    <button onclick="eliminarContenido()">Eliminar Contenido</button>
+
+    <div id="tablaContainer"></div>
+
+    <script>
+      function crearTabla() {
+        var filas = document.getElementById("filas").value;
+        var columnas = document.getElementById("columnas").value;
+
+        var tabla = document.createElement("table");
+
+        for (var i = 0; i < filas; i++) {
+          var fila = tabla.insertRow();
+          for (var j = 0; j < columnas; j++) {
+            var celda = fila.insertCell();
+            celda.textContent = "(" + (i + 1) + ", " + (j + 1) + ")";
+          }
+        }
+        var tablaContainer = document.getElementById("tablaContainer");
+        tablaContainer.innerHTML = "";
+        tablaContainer.appendChild(tabla);
+      }
+
+      function eliminarContenido() {
+        var filaEliminar = parseInt(
+          document.getElementById("filaEliminar").value
+        );
+        var columnaEliminar = parseInt(
+          document.getElementById("columnaEliminar").value
+        );
+        var tabla = document.querySelector("table");
+        var fila = tabla.rows[filaEliminar - 1];
+        fila.cells[columnaEliminar - 1].textContent = "";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Practica1</title>
+    <style>
+        .oculto {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="oculto" id="ficha1">
+        Hola, soy el bloque 1
+    </div>
+
+    <div class="oculto" id="ficha2">
+        Hola, soy el bloque 2
+    </div>
+
+    <div class="oculto" id="ficha3">
+        Hola, soy el bloque 3
+    </div>
+
+    <script>
+        document.addEventListener("keydown", function () {
+            if (event.key === '1') {
+                mostrarElemento('ficha1');
+            }
+            if (event.key === '2') {
+                mostrarElemento('ficha2');
+            }
+            if (event.key === '3') {
+                mostrarElemento('ficha3');
+            }
+        });
+
+        function mostrarElemento(id) {
+            let elemento = document.getElementById(id);
+            elemento.classList.remove('oculto');
+            elemento.classList.add('visible');
+        }
+    </script>
+</body>
+
+</html>
